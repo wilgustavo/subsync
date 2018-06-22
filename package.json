@@ -1,0 +1,14 @@
+{
+  "name": "subsync",
+  "version": "0.0.1",
+  "description": "Manten sincronizados tus subtitulos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Gustavo Wilgenhoff",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.22.2"
+  }
+}
