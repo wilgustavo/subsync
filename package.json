@@ -9,6 +9,7 @@
   "author": "Gustavo Wilgenhoff",
   "license": "MIT",
   "dependencies": {
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "split2": "^2.2.0"
   }
 }

@@ -1,29 +1,17 @@
-const moment = require('moment');
-
+const split2  = require("split2");
 const fs = require('fs');
-const readline = require('readline');
+const syncTransform = require('./transform');
 
-const rs = fs.createReadStream('./pruebas/mm.srt');
-
-const rl = readline.createInterface({
-  input: rs
-});
-
-rl.on('line', line => {
-  console.log(procesarLinea(line));
-});
-
-function procesarLinea(linea) {
-  const regex = /^(\d{2}:\d{2}:\d{2},\d{3})\s-->\s(\d{2}:\d{2}:\d{2},\d{3})/;
-  const match = regex.exec(linea);
-  if (match) {
-    return `${ajustarTiempo(match[1], 1000)} --> ${ajustarTiempo(match[2], 1000)}`;
-  }
-
-  return linea;
+if (process.argv.length < 5) {
+  console.log('Uso: node index.js <original> <destino> <ms>');
+  process.exit(1);
 }
 
-function ajustarTiempo(tiempo, delta) {
-  const mascara = 'HH:mm:ss,SSS';
-  return moment(tiempo, mascara).add(delta, 'ms').format(mascara);
-}
+const [,, original, destino, tiempo ] = process.argv;
+const fileIn = fs.createReadStream(original);
+const fileOut = fs.createWriteStream(destino);
+
+fileIn
+  .pipe(split2())
+  .pipe(syncTransform(Number.parseInt(tiempo)))
+  .pipe(fileOut);
